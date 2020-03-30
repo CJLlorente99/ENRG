@@ -63,3 +63,23 @@ I1 = Io + I2p;
 c = abs(I1)/mod_I1N;
 
 eta = 100* (c*S2*cosd(phi2))/(c*S2*cosd(phi2)+Po+c^2*Pcc);
+
+%% Apartado b y c % con aproximación de Kapp
+
+mod_I2p2 = roots([Rcc*fdp2 + Xcc*sind(phi2), -U1N, S2]); %cojemos el resultado con sentido
+mod_I2p2 = mod_I2p2(2);
+
+mod_U2p2 = S2/mod_I2p2;
+mod_U22 = mod_U2p2/m;
+
+Zlp2 = mod_U2p2/(mod_I2p2*(cosd(-phi2)+j*sind(-phi2)));
+
+I2p2 = U1N/(Zlp2+Rcc+j*Xcc);
+
+I12 = I2p2+Io;
+
+%% Apartado d % con aproximación de Kapp
+
+c2 = abs(I12)/mod_I1N;
+
+eta2 = 100* c2*S2*cosd(phi2)/(c2*S2*cosd(phi2)+Po+c2^2*Pcc);
