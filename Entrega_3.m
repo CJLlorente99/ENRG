@@ -19,6 +19,8 @@ Pcc = 1600;
 
 m = U1N/mod_U2N;
 mod_I1N = SN/U1N;
+Ohm = char(hex2dec('03A9'));
+mu = char(hex2dec('03BC'));
 
 %% Apartado a % Rcc, Xcc, Rfe, Xmu
 
@@ -35,7 +37,14 @@ Rcc = Pcc/(mod_I1N^2);
 Zcc = mod_Ucc/mod_I1N;
 Xcc = sqrt(Zcc^2 - Rcc^2);
 
-%% Apartado c % mod_U2
+fprintf(">Apartado a \n");
+
+fprintf("Rcc vale %.0f %s \n",Rcc, Ohm);
+fprintf("Xcc vale %.2f %s \n",Xcc, Ohm);
+fprintf("R_{fe} vale %.0f %s \n",Rfe, Ohm);
+fprintf("X_{%s} vale %.2f %s \n",mu,Xmu, Ohm);
+
+%% Apartado b y c % mod_U2 y abs(I1)
 
 % Datos
 
@@ -58,13 +67,22 @@ Zlp = mod_U2p/(mod_I2p*(cosd(-phi2)+j*sind(-phi2)));
 I2p = U1N/(Zlp+Rcc+j*Xcc);
 I1 = Io + I2p;
 
+fprintf(">Apartado b y c \n");
+
+fprintf("U_2 vale %.2f V \n",mod_U2);
+fprintf("I_1 vale %.2f \n",abs(I1));
+
 %% Apartado d % eta
 
 c = abs(I1)/mod_I1N;
 
 eta = 100* (c*S2*cosd(phi2))/(c*S2*cosd(phi2)+Po+c^2*Pcc);
 
-%% Apartado b y c % con aproximación de Kapp
+fprintf(">Apartado d \n");
+
+fprintf("%s vale %.2f %% \n",mu,eta);
+
+%% Apartado b y c % con aproximación de Kapp mod_U22 y abs(I12)
 
 mod_I2p2 = roots([Rcc*fdp2 + Xcc*sind(phi2), -U1N, S2]); %cojemos el resultado con sentido
 mod_I2p2 = mod_I2p2(2);
@@ -78,8 +96,17 @@ I2p2 = U1N/(Zlp2+Rcc+j*Xcc);
 
 I12 = I2p2+Io;
 
-%% Apartado d % con aproximación de Kapp
+fprintf(">Apartado b y c, utilizando la aproximación de Kapp \n");
+
+fprintf("U_2 vale %.2f V \n",mod_U22);
+fprintf("I_1 vale %.2f A \n",abs(I12));
+
+%% Apartado d % con aproximación de Kapp eta2
 
 c2 = abs(I12)/mod_I1N;
 
 eta2 = 100* c2*S2*cosd(phi2)/(c2*S2*cosd(phi2)+Po+c2^2*Pcc);
+
+fprintf(">Apartado d utilizando la aproximación de Kapp \n");
+
+fprintf("%s vale %.2f %% \n",mu,eta2);
